@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
+
+<div class="jumbotron">
+    <h1>ESI Training Order List</h1>
+    <h2>UPLOAD</h2>
+</div>
+
+@using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <table>
+        <tr>
+            <td>Select Your ESI Training Order List:</td>
+            <td>
+                <input type="file" name="UploadedFile" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                ...then click: <input type="submit" name="Submit" value="Upload" />
+            </td>
+        </tr>
+    </table>
+
+}
+
+<div>
+    <dl>
+        <dt>Import result: @ViewBag.ImportResult</dt>
+        <dd>@ViewBag.RowsImported rows were imported from @ViewBag.FileName:</dd>
+        <dt>Imported Rows:</dt>
+        <dd>
+            <hr />
+
+            @if (Model != null)
+    {
+        <table>
+            <tr>
+                <th>ESITPMID</th>
+                <th>Customer</th>
+                <th>Course</th>
+                <th>Modality</th>
+                <th>NumberStudents</th>
+                <th>DeliveryCity</th>
+                <th>Language</th>
+                <th>Location</th>
+                <th>DeliveryWindowStart</th>
+                <th>DeliveryWindowEnd</th>
+                <th>PreferedDateNotes</th>
+                <th>DeliveryChannel</th>
+                <th>ReadyToSchedule</th>
+            </tr>
+
+            @foreach (var item in Model.lst_clsExcelFileRow)
+    {
+        <tr>
+            <td>@item.ESITPMID</td>
+            <td>@item.Customer</td>
+            <td>@item.Course</td>
+            <td>@item.Modality</td>
+            <td>@item.NumberStudents</td>
+            <td>@item.DeliveryCity</td>
+            <td>@item.Language</td>
+            <td>@item.Location</td>
+            <td>@item.DeliveryWindowStart</td>
+            <td>@item.DeliveryWindowEnd</td>
+            <td>@item.PreferedDateNotes</td>
+            <td>@item.DeliveryChannel</td>
+            <td>@item.ReadyToSchedule</td>
+        </tr>
+}
+
+        </table>
+        foreach (string strItem in Model.lst_clsImportErrors)
+        {
+        <p>@strItem</p>
+        }
+        <hr />
+}
+        </dd>
+    </dl>
+</div>
+<div>
+    <dl>
+        <dt>Press to download an empty list</dt>
+    </dl>
+    <p></p>
+    <input type="button" class="btn btn-info" value="Download New List" onclick="location.href='@Url.Action("DownloadTemplate", "Home")'" />
+</div>
